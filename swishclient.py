@@ -1,7 +1,8 @@
 import json
 import os
 import requests
-import gettext.gettext as _
+import gettext
+_ = gettext.gettext
 
 __author__ = 'thomas@biljettshop.se'
 
@@ -62,7 +63,7 @@ class SwishClient(object):
                         message='',
                         payee_alias=None,
                         ):
-        json_data = {
+        data = {
             'payeePaymentReference': reference,
             'callbackUrl': callback_url,
             'payerAlias': payer_alias,
@@ -71,8 +72,7 @@ class SwishClient(object):
             'currency': currency,
             'message': message,
         }
-        json_str = json.dumps(json_data)
-        r = self.post('paymentrequests', json_str)
+        r = self.post('paymentrequests', json.dumps(data))
         if r.status_code == 201:
             # Created OK
             return SwishResponse(r.headers['location'], None)
