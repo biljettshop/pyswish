@@ -3,7 +3,7 @@ import os
 import requests
 import gettext.gettext as _
 
-__author__ = 'thlu79@gmail.com'
+__author__ = 'thomas@biljettshop.se'
 
 API_BASE_URL = os.environ.get('SWISH_API_BASE_URL', 'https://swicpc.bgc.se/api/v1/')
 ERROR_CODES = {
@@ -77,8 +77,8 @@ class SwishClient(object):
             # Created OK
             return SwishResponse(r.headers['location'], None)
         elif r.status_code == 422:
-            raise SwishError("Unprocessable entity", r.json())
-        raise SwishHttpError("HTTP Error", r)
+            raise SwishError(_("Unprocessable entity"), r.json())
+        raise SwishHttpError(_("HTTP Error"), r)
 
     def refund(self,
                reference,
@@ -103,8 +103,8 @@ class SwishClient(object):
             # Refund OK
             return SwishResponse(r.headers['location'], None)
         elif r.status_code == 422:
-            raise SwishError("Unprocessable entity", r.json())
-        raise SwishHttpError("HTTP Error", r)
+            raise SwishError(_("Unprocessable entity"), r.json())
+        raise SwishHttpError(_("HTTP Error"), r)
 
     def status(self, location):
         """Get status of either payment or refund.
@@ -114,4 +114,4 @@ class SwishClient(object):
         r = requests.get(location)
         if r.status_code == 200:
             return r.json()
-        raise SwishHttpError("HTTP Error", r)
+        raise SwishHttpError(_("HTTP Error"), r)
