@@ -1,10 +1,12 @@
 import json
 import os
 import requests
-import gettext
-_ = gettext.gettext
 
 __author__ = 'thomas@biljettshop.se'
+
+
+def _(message): return message
+
 
 API_BASE_URL = os.environ.get('SWISH_API_BASE_URL', 'https://swicpc.bgc.se/api/v1/')
 ERROR_CODES = {
