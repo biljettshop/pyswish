@@ -1,3 +1,6 @@
+# Swish client
+# Latest integration docs: https://www.getswish.se/content/uploads/2015/06/Integrationguide-Swish-Handel-150915.pdf
+# DISCLAIMER: Use this code at your own risk
 import json
 import os
 import requests
@@ -38,10 +41,10 @@ class SwishHttpError(Exception):
 
 
 class SwishResponse(object):
-    def __init__(self, location, token, _id=None):
+    def __init__(self, location, token, reference=None):
         self.location = location
         self.token = token
-        self.id = _id or self.location.split('/')[-1] if self.location else None
+        self.reference = reference or self.location.split('/')[-1] if self.location else None
 
 
 class SwishClient(object):
@@ -84,7 +87,7 @@ class SwishClient(object):
 
     def refund(self,
                reference,
-               original_id,
+               payment_reference,
                payer_alias,
                amount,
                callback_url=None,
@@ -93,7 +96,7 @@ class SwishClient(object):
                ):
         data = {
             'payerPaymentReference': reference,
-            'originalPaymentReference': original_id,
+            'originalPaymentReference': payment_reference,
             'callbackUrl': callback_url,
             'payerAlias': payer_alias,
             'amount': amount,
