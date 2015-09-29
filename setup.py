@@ -8,5 +8,6 @@ setup(
     license='BSD',
     author='Thomas Lundqvist',
     author_email='thomas@biljettshop.se',
-    description='Python Swish Client'
+    description='Python Swish Client',
+    requires=['requests'],
 )

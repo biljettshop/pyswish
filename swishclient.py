@@ -38,16 +38,16 @@ class SwishHttpError(Exception):
 
 
 class SwishResponse(object):
-    def __init__(self, location, token):
+    def __init__(self, location, token, _id=None):
         self.location = location
         self.token = token
-        self.id = self.location.split('/')[-1] if self.location else None
+        self.id = _id or self.location.split('/')[-1] if self.location else None
 
 
 class SwishClient(object):
     def __init__(self, payee_alias, api_base_url=None):
         self.payee_alias = payee_alias
-        self.api_base_url = API_BASE_URL if api_base_url is None else api_base_url
+        self.api_base_url = api_base_url or API_BASE_URL
 
 
     def post(self, endpoint, json, **kwargs):
@@ -69,7 +69,7 @@ class SwishClient(object):
             'payeePaymentReference': reference,
             'callbackUrl': callback_url,
             'payerAlias': payer_alias,
-            'payeeAlias': self.payee_alias if payee_alias is None else payee_alias,
+            'payeeAlias': payee_alias or self.payee_alias,
             'amount': str(amount).replace('.', ','),
             'currency': currency,
             'message': message,
