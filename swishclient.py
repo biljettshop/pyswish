@@ -48,13 +48,14 @@ class SwishResponse(object):
 
 
 class SwishClient(object):
-    def __init__(self, payee_alias, api_base_url=None):
+    def __init__(self, payee_alias, cert, api_base_url=None):
         self.payee_alias = payee_alias
+        self.cert = cert
         self.api_base_url = api_base_url or API_BASE_URL
 
 
     def post(self, endpoint, json, **kwargs):
-        r = requests.post(self.api_base_url + endpoint, json=json,
+        r = requests.post(self.api_base_url + endpoint, json=json, cert=self.cert,
                           headers={'Content-Type': 'application/json'},
                           **kwargs)
         return r
@@ -116,7 +117,7 @@ class SwishClient(object):
         Use location from SwishResponse
         Returns: Dictionary from JSON response
         """
-        r = requests.get(location)
+        r = requests.get(location, cert=self.cert)
         if r.status_code == 200:
             return r.json()
         raise SwishHttpError(_("HTTP Error"), r)
