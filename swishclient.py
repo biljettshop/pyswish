@@ -49,6 +49,12 @@ class SwishResponse(object):
 
 class SwishClient(object):
     def __init__(self, payee_alias, cert, api_base_url=None):
+        """
+        :param payee_alias: You're alias
+        :param cert: Certificate file to use when connecting with server
+        :param api_base_url: Use this base url for api requests
+        :return:
+        """
         self.payee_alias = payee_alias
         self.cert = cert
         self.api_base_url = api_base_url or API_BASE_URL
